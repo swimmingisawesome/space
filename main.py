@@ -1,5 +1,7 @@
 import pygame
+import random
 from Ship import *
+from Asteroid import *
 pygame.init()
 
 screen_info = pygame.display.Info()
@@ -12,8 +14,10 @@ color = (30, 0, 30)
 NumLevels = 4
 Level = 1
 AsteroidCount = 3
-Player = Ship()
-
+Player = Ship((20, 200))
+#Asteroids = pygame.sprite.Group()
+Asteroids = Asteroid(400, 300)
+  #random.randint(50, 500), random.randint(50, 700)), (random.randint(10, 100), random.randint(10, 100))
 
 def main():
   while Level <= NumLevels:
@@ -22,9 +26,26 @@ def main():
       if event.type == pygame.KEYDOWN:
         if event.key== pygame.K_RIGHT:
           Player.speed[0] = 10
+        if event.key== pygame.K_DOWN:
+          Player.speed[1] = 10
+        if event.key== pygame.K_UP:
+          Player.speed[1] = -10
+        if event.key== pygame.K_LEFT:
+          Player.speed[0] = -10
+      if event.type == pygame.KEYUP:
+        if event.key== pygame.K_RIGHT:
+          Player.speed[0] = 0
+        if event.key== pygame.K_DOWN:
+          Player.speed[1] = 0
+        if event.key== pygame.K_UP:
+          Player.speed[1] = 0
+        if event.key== pygame.K_LEFT:
+          Player.speed[0] = 0
     Player.update()
+    Asteroids.update()
     w.fill(color)
     w.blit(Player.image, Player.rect)
+    w.blit(Asteroids.image, Asteroids.rect)
     pygame.display.flip()
 
 if __name__=='__main__':
